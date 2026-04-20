@@ -1,9 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lost & hiFound</title>
+    <title>Welcome to FINdora island  </title>
 </head>
 <body>
-    <h1>Welcome to bye  & hiFound System</h1>
+     <div id="login section">
+        <h1>Welcome to FINDORA ISLAND!</h1>
+        <h2>Login</h2>
+        <input type="text" id="admin" placeholder="Username"><br><br>
+        <input type="password" id="12345" placeholder="Password"><br><br>
+        <button id="loginButton">Login</button>
+     </div>
+        <div id="welcome section" style="display:none;">
+            <h2>Welcome to FINdora island!</h2>
+            <p>You have successfully logged in.</p>
+            <button onclick="handleLogout()">Logout</button>
+        </div>
+    <script src="script.js"></script>
+    <script>
+         const loginButton = document.getElementById('loginButton');
+         const loginSection = document.getElementById('login section');
+        const welcomeSection = document.getElementById('welcome section');
+         
+        loginButton.addEventListener('click', () => {
+            const username = document.getElementById('admin').value;
+            const password = document.getElementById('12345').value;
+
+            if (username === 'admin' && password === '12345') {
+                loginSection.style.display = 'none';
+                welcomeSection.style.display = 'block';
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        });
+
+    </script>
+   
+
 </body>
 </html>
