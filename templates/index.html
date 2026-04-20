@@ -17,25 +17,4 @@
             <button onclick="handleLogout()">Logout</button>
         </div>
     <script src="script.js"></script>
-    <script>
-         const loginButton = document.getElementById('loginButton');
-         const loginSection = document.getElementById('login section');
-        const welcomeSection = document.getElementById('welcome section');
-         
-        loginButton.addEventListener('click', () => {
-            const username = document.getElementById('admin').value;
-            const password = document.getElementById('12345').value;
-
-            if (username === 'admin' && password === '12345') {
-                loginSection.style.display = 'none';
-                welcomeSection.style.display = 'block';
-            } else {
-                alert('Invalid credentials. Please try again.');
-            }
-        });
-
-    </script>
-   
-
-</body>
-</html>
+    
