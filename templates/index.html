@@ -5,8 +5,9 @@
 </head>
 <body>
      <div id="login section">
-        <h1>Welcome to FINDORA ISLAND!</h1>
-        <h2>Login</h2>
+        <h1>Welcome to FINDORA ISLAND </h1>
+        <h2>Find it.Feel it.Live it!!!</h2>
+        <h3>Login your account</h3>
         <input type="text" id="admin" placeholder="Username"><br><br>
         <input type="password" id="12345" placeholder="Password"><br><br>
         <button id="loginButton">Login</button>
@@ -17,4 +18,17 @@
             <button onclick="handleLogout()">Logout</button>
         </div>
     <script src="script.js"></script>
-    
+    <script>
+        const loginButton = document.getElementById('loginButton');
+        loginButton.addEventListener('click', function() {
+            const username = document.getElementById('admin').value;
+            const password = document.getElementById('12345').value;
+
+            if (username === 'admin' && password === '12345') {
+                document.getElementById('login section').style.display = 'none';
+                document.getElementById('welcome section').style.display = 'block';
+            } else {
+                alert('Invalid username or password. Please try again.');
+            }
+        });
+    </script>
