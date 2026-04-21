@@ -18,17 +18,4 @@
             <button onclick="handleLogout()">Logout</button>
         </div>
     <script src="script.js"></script>
-    <script>
-        const loginButton = document.getElementById('loginButton');
-        loginButton.addEventListener('click', function() {
-            const username = document.getElementById('admin').value;
-            const password = document.getElementById('12345').value;
-
-            if (username === 'admin' && password === '12345') {
-                document.getElementById('login section').style.display = 'none';
-                document.getElementById('welcome section').style.display = 'block';
-            } else {
-                alert('Invalid username or password. Please try again.');
-            }
-        });
-    </script>
+    
