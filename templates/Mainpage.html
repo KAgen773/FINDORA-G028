@@ -6,13 +6,19 @@
         body {
             margin: 0;
             height: 100vh;
-            background: url("{{ url_for('static', filename='New.gif') }}") no-repeat center center/cover;
+              margin: 0;
+    height: 100vh;
+    background-image: url("{{ url_for('static', filename='New.gif') }}");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: black;
             font-family: Arial;
             color: white;
         }
 
         .overlay {
-            background: rgba(0,0,0,0.6);
+
             height: 100%;
             display: flex;
             flex-direction: column;
