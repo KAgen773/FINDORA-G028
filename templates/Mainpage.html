@@ -1,20 +1,81 @@
 <!DOCTYPE html>
 <html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <head>
     <title>Findora - Lost & Found</title>
     <style>
         body {
             margin: 0;
             height: 100vh;
-              margin: 0;
-    height: 100vh;
-    background-image: url("{{ url_for('static', filename='New.gif') }}");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-color: black;
+            margin: 0;
+            height: 100vh;
+            background-image: url("{{ url_for('static', filename='New.gif') }}");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-color: black;
             font-family: Arial;
+            color: lightseagreen;
+        }
+
+        .icon-bar {
+            position: fixed;
+            top: 100px;
+            left: 0;
+            height: 100%;
+            width: 90px;
+            background-color: transparent;
+
+        }
+
+        .icon-bar a {
+            display: block;
+            text-align: center;
+            padding: 16px;
+            transition: all 0.3s ease;
             color: white;
+            font-size: 36px;
+        }
+
+        .icon-bar a:hover {
+            background-color: blue;
+        }
+
+        .active {
+            background-color: lightseagreen;
+        }
+
+        .report-panel {
+            position: fixed;
+            right: 80px;
+            top: 40%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .report-panel h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .report-btn {
+            display: block;
+            width: 180px;
+            text-align: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .report-btn:hover {
+            background: blue;
         }
 
         .overlay {
@@ -30,34 +91,27 @@
             font-size: 50px;
         }
 
-        .menu {
-            margin-top: 20px;
-        }
 
-        .menu a {
-            display: block;
-            padding: 15px 30px;
-            margin: 10px;
-            background: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-        }
-
-        .menu a:hover {
-            background: #0056b3;
-        }
     </style>
 </head>
 
 <body>
+        <div class="icon-bar">
+        <a class="active" href="#"><i class="fa fa-home"></i></a>
+        <a href="#"><i class="fa fa-search"></i></a>
+        <a href="#"><i class="fa fa-envelope"></i></a>
+        <a href="#"><i class="fa fa-user"></i></a>
+        <a href="#"><i class="fa fa-info-circle"></i></a>
+    </div>
     <div class="overlay">
         <h1>Findora</h1>
-        <div class="menu">
-            <a href="#">Report Item</a>
-            <a href="#">Search Items</a>
-            <a href="#">Login</a>
-        </div>
+
     </div>
+    <div class="report-panel">
+        <h2>REPORT</h2>
+         <a href="#" class="report-btn">Lost Item</a>
+         <a href="#" class="report-btn">Found Item</a>
+    </div>
+
 </body>
 </html>
