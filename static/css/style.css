@@ -1,7 +1,31 @@
 body {
     margin: 0;
-    background-image: url("../New.gif");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: 1550px 700px;
+    height: 100vh;
+    position: relative;
+    font-family: Arial, sans-serif;
 }
+
+.center-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+}
+

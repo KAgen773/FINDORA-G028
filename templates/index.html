@@ -1,21 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome to FINdora island  </title>
+    <title>FINdora Island Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
+<body style="background-image: url('Gemini_Generated_Image_xd4ubxxd4ubxxd4u.jpg'); background-size: cover;">
+<style>
+
+
+h2 {
+  text-align: center;
+  text-transform: uppercase;
+  color: #000000;
+
+}
+.new-register {
+  text-align: center;
+  text-transform: uppercase;
+  color: #ff0000;
+  background-color: aliceblue;
+  padding: 5px;
+  text-decoration: none;
+}
+
+.new-register:hover {
+  background-color: #ff0000;
+  color: #eae9e9;
+}
+.flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input {
+    padding: 15px;
+    width: 260px;
+    border-radius: 7px;
+}
+</style>
+</head>
+
 <body>
-     <div id="login section">
-        <h1>Welcome to FINDORA ISLAND </h1>
-        <h2>Find it.Feel it.Live it!!!</h2>
-        <h3>Login your account</h3>
-        <input type="text" id="admin" placeholder="Username"><br><br>
-        <input type="password" id="12345" placeholder="Password"><br><br>
-        <button id="loginButton">Login</button>
-     </div>
-        <div id="welcome section" style="display:none;">
-            <h2>Welcome to FINdora island!</h2>
-            <p>You have successfully logged in.</p>
-            <button onclick="Logout.html"></button>
-        </div>
+
+<div class="flex-container">
+<div class="center-box">
+    <h2>Login</h2>
+</div>
+
+    <input type="text" name="username" placeholder="Username" required>
+
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+    </form>
+    <div class="navbar">
+    <p><a class="new-register" href="login.html">New register</a></p>
+</div>
+</div>
+
+       
+</div>
+
 </body>
 </html>
