@@ -21,40 +21,61 @@ body{
     border-radius: 5px;
     width:300px;
     text-align:center;
-    button:hover{background-color: rgb(39, 186, 231);color: bisque;}
 }
 input{
-    width: 90px;
+    width: 90%;
     padding: 10px;
     margin: 10px auto;
 }
 button{
     padding: 8px 20px;
+}   
 
-}   
-Register{background-color: rgba(35, 227, 237, 0.8);
-    padding: 20px;
-    border-radius: 5px;
-    width:300px;
-    text-align:center;
-    button:hover{background-color: rgb(0, 229, 255);color: bisque;}
-}   
+#successMsg {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+}
 </style>
 </head>
-<body>
-   <div class="login-container">
-    <form class="login-box" action="register.php" method="post">
-        <h2>Register</h2>
-        <label> New Username:</label><br>
-        <input type="text" name="username" required><br><br>
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
-        <label>NewPassword:</label><br>
-        <input type="password" name="password" required><br><br>
-        <button type="submit">Register</button></body>
 
-        <button type="button" onclick="window.location.href='Mainpage.html'">Back to Login</button>
+<body>
+
+<div class="login-container">
+    <form class="login-box" onsubmit="return showSuccess(event)">
+        <h2>Register</h2>
+
+        <label>New Username:</label><br>
+        <input type="text" id="username" required><br>
+
+        <label>Email:</label><br>
+        <input type="email" required><br>
+
+        <label>New Password:</label><br>
+        <input type="password" required><br>
+
+        <button type="submit">Register</button><br><br>
+
+        <button type="button" onclick="window.location.href='Mainpage.html'">
+            Back to Login
+        </button>
+
+        <p id="successMsg"></p>
     </form>
-    </div>
+</div>
+
+<script>
+function showSuccess(event) {
+    event.preventDefault(); // stop reload
+
+    let user = document.getElementById("username").value;
+
+    document.getElementById("successMsg").textContent =
+        "✅ Successfully registered, " + user + "!";
+
+    return false;
+}
+</script>
+
 </body>
 </html>
