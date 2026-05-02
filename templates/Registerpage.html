@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - Findora</title>
+
+<style>
+body{
+    background-image: url('register image.jpg');
+    background-size: cover;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.login-box {
+    background-color: rgba(35, 227, 237, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+    width:300px;
+    text-align:center;
+}
+input{
+    width: 90%;
+    padding: 10px;
+    margin: 10px auto;
+}
+button{
+    padding: 8px 20px;
+}   
+
+#successMsg {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-container">
+    <form class="login-box" onsubmit="return showSuccess(event)">
+        <h2>Register</h2>
+
+        <label>New Username:</label><br>
+        <input type="text" id="username" required><br>
+
+        <label>Email:</label><br>
+        <input type="email" required><br>
+
+        <label>New Password:</label><br>
+        <input type="password" required><br>
+
+        <button type="submit">Register</button><br><br>
+
+        <button type="button" onclick="window.location.href='interface.html'">
+            Back to Login
+        </button>
+
+        <p id="successMsg"></p>
+    </form>
+</div>
+
+<script>
+function showSuccess(event) {
+    event.preventDefault(); // stop reload
+
+    let user = document.getElementById("username").value;
+
+    document.getElementById("successMsg").textContent =
+        "✅ Successfully registered, " + user + "!";
+
+    return false;
+}
+</script> pul
+
+</body>
+</html>
