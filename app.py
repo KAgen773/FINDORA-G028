@@ -5,11 +5,25 @@ app = Flask(__name__)
 # Temporary database (in-memory)
 users = {}
 
+# First page (login page)
 @app.route("/")
-def home():
-    return render_template("login.html")
+def interface():
+    return render_template("interface.html")
+
+# Handle login
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
 
 
+    if username in users and users[username] == password:
+        return redirect(url_for('mainpage'))
+    else:
+        return redirect(url_for('interface'))     #stay on login page
+    
+
+# Register page
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -18,41 +32,9 @@ def register():
 
         users[username] = password
 
-        return redirect(url_for("home"))
+        return redirect(url_for("interface"))    #back to login after register
 
-    return render_template("register.html")
-
-@app.route("/login", methods=["POST"])
-def login():
-    username = request.form["username"]
-    password = request.form["password"]
-
-    if username in users and users[username] == password:
-        return "<h2>Login Successful 🎉</h2><a href='/'>Logout</a>"
-    else:
-        return "<h2>Invalid Login ❌</h2><a href='/'>Try Again</a>"
-
-
-# Fake login data (for now)
-USERNAME = "admin"
-PASSWORD = "12345"
-
-# 🔹 First page (login page)
-@app.route('/')
-def login_page():
-    return render_template('index.html')
-
-# 🔹 Handle login
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.form['username']
-    password = request.form['password']
-
-
-    if username == USERNAME and password == PASSWORD:
-        return redirect(url_for('mainpage'))
-    else:
-        return "Invalid login. Try again."
+    return render_template("Registerpage.html")
 
 # 🔹 Your main menu page
 @app.route('/mainpage')

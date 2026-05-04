@@ -10,7 +10,7 @@
             height: 100vh;
             margin: 0;
             height: 100vh;
-            background-image: url("./static/New.gif");
+            background-image: url("{{ url_for('static', filename='New.gif') }}");
             background-position: center;
             background-repeat: no-repeat;
             background-size: contain;
@@ -192,9 +192,9 @@ function closeForm() {
 
         <div class="icon-bar">
             <div class="profile">
-                <img src="{{ url_for('New.gif') }}" alt="profile">
+                <img src="{{ url_for('static', filename='New.gif') }}" alt="profile">
             </div>
-        <a class="active" href="interface.html"><i class="fa fa-home"></i></a>
+        <a class="active" href="/"><i class="fa fa-home"></i></a>
         <a href="#"><i class="fa fa-search"></i></a>
         <a href="#"><i class="fa fa-envelope"></i></a>
         <a href="#"><i class="fa fa-user"></i></a>
