@@ -163,8 +163,10 @@ function openForm(type) {
 
     if (type === "lost") {
         document.getElementById("formTitle").innerText = "Report Lost Item";
+        document.getElementById("itemType").value = "lost";
     } else {
         document.getElementById("formTitle").innerText = "Report Found Item";
+        document.getElementById("itemType").value = "found";
     }
 }
 
@@ -181,7 +183,8 @@ function closeForm() {
 
             <h2 id="formTitle">Report</h2>
 
-            <form method="POST" action="#">
+            <form method="POST" action="/report">
+                <input type="hidden" name="type" id="itemType">
                 <input type="text" name="item_name" placeholder="Item Name" required>
                 <input type="text" name="location" placeholder="Location" required>
                 <textarea name="description" placeholder="Description"></textarea>
