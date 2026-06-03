@@ -29,6 +29,7 @@ input{
 }
 button{
     padding: 8px 20px;
+    cursor: pointer;
 }   
 
 #successMsg {
@@ -42,10 +43,10 @@ button{
 <body>
 
 <div class="login-container">
-    <form class="login-box" method="POST" action="/register">
+    <form id="registerForm" class="login-box" method="POST" action="/register" onsubmit="return handleRegister(event)">
         <h2>Register</h2>
         
-        <input type="text" name="username" placeholder="Username" required><br>
+        <input type="text" id="username" name="username" placeholder="Username" required><br>
         <input type="email" name="email" placeholder="Email" required><br>
         <input type="password" name="password" placeholder="Password" required><br>
 
@@ -54,8 +55,24 @@ button{
         <a href="/">
             <button type="button">Back to Login</button>
         </a>
+
+        <p id="successMsg"></p>
     </form>
 </div>
+
+<script>
+function handleRegister(event) {
+    let user = document.getElementById("username").value;
+    document.getElementById("successMsg").textContent = "✅ Succesfully registered, " + user + "! Redirecting...";
+
+    setTimeout(function() {
+    document.getElementById("registerForm").submit();
+    }, 1500);
+
+    event.preventDefault();
+    return false;
+}
+</script>
 
 </body>
 </html>
