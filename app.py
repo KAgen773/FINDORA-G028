@@ -51,7 +51,7 @@ def register():
 # 🔹 Your main menu page
 @app.route('/mainpage')
 def mainpage():
-    return render_template('Mainpage.html')
+    return render_template('Mainpage.html', items=items)
 
 
 # Report route
