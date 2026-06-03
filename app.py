@@ -1,9 +1,24 @@
 import os
+import psycopg2
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = "findora_secret_key"  # Needed later for login sessions
+
+from psycopg2.extras import RealDictCursor
+
+def get_db():
+    conn = psycopg2.connect(
+        host="aws-1-ap-northeast-2.pooler.supabase.com",
+        database="postgres",
+        user="postgres.nlcxhkwuhntanpvigjpo",
+        password="Kavinnesh73@",
+        port="5432",
+        cursor_factory=RealDictCursor
+    )
+    return conn
+
 
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -12,24 +27,36 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 users = {}
-items = []
+
 
 # First page (login page)
 @app.route("/")
 def interface():
     return render_template("interface.html")
 
+
 # Handle login
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form['username']      #login field is email
+    email = request.form['email']      #login field is email
     password = request.form['password']
 
-    if username in users and users[username] == password:
-        session["user_id"] = username
-        return redirect(url_for('mainpage'))
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT id, username FROM users
+        WHERE email=%s AND password=%s
+    """, (email, password))
+
+    user = cursor.fetchone()
+    conn.close()
+
+    if user:
+        session["user_id"] = user['id']
+        return redirect(url_for("mainpage"))
     else:
-        return redirect(url_for('interface'))     #stay on login page
+        return redirect(url_for("interface"))   #stay on login page
        
     
 
@@ -38,10 +65,19 @@ def login():
 def register():
     if request.method == "POST":
         username = request.form["username"]
+        email = request.form["email"]
         password = request.form["password"]
 
-        # save temporarily
-        users[username] = password
+        conn = get_db()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            INSERT INTO users (username, email, password)
+            VALUES (%s, %s, %s)
+        """, (username, email, password))
+
+        conn.commit()
+        conn.close()
 
         return redirect(url_for("interface"))    #back to login after register
 
@@ -51,6 +87,14 @@ def register():
 # 🔹 Your main menu page
 @app.route('/mainpage')
 def mainpage():
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM items")
+    items = cursor.fetchall()
+
+    conn.close()
+
     return render_template('Mainpage.html', items=items)
 
 
@@ -85,9 +129,25 @@ def report():
         "image": image_path
     }
 
-    items.append(item)
+    conn = get_db()
+    cursor = conn.cursor()
 
-    print(items)
+    cursor.execute("""
+        INSERT INTO items (user_id, type, name, location, date, description, phone, image_url)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+""", (
+    session["user_id"],
+    item_type,
+    item_name,
+    location,
+    date,
+    description,
+    phone,
+    image_path
+))
+    conn.commit()
+    conn.close()
+
 
     return redirect(url_for("mainpage"))
 

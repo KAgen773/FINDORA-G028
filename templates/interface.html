@@ -4,13 +4,13 @@
     
 </head>
 
-<body style="background-image: url('{{ url_for('static', filename='interface .jpg') }}');">
+<body style="background-image: url('{{ url_for('static', filename='interface.jpg') }}');">
 
 <div class="login-container">
     <form class="login-box" method="POST" action="/login">
       <h2>Login</h2>
 
-        <input type="text" name='username' placeholder="Username" required>
+        <input type="email" name='email' placeholder="Email" required>
 
         <input type="password" name='password' placeholder="Password" required>
 
