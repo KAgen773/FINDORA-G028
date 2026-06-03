@@ -5,7 +5,7 @@
 
 <style>
 body{
-    background-image: url('photo.jpg');
+    background-image: url('{{ url_for("static", filename="photo.jpg") }}');
     background-size: cover;
 }
 
@@ -56,9 +56,7 @@ button{
 
         <button type="submit">Register</button><br><br>
 
-        <button type="button" onclick="window.location.href='interface.html'">
-            Back to Login
-        </button>
+        <button type="button" onclick="window.location.href='/'">Back to Login</button>
 
         <p id="successMsg"></p>
     </form>

@@ -8,14 +8,14 @@
         <input type="text" placeholder="Username" required>
         <input type="password" placeholder="Password" required>
         <button type="submit">Login</button>
-         <button type="button" onclick="window.location.href='index.html'">Register yourself</button>
+         <button type="button" onclick="window.location.href='/registerpage'">Register yourself</button>
     </form>
     </div>
 </head>
 </html>
 <style>
 body{
-    background-image: url('photo.jpj.jpg');
+    background-image: url('{{ url_for("static", filename="photo2.jpg") }}');
 }
 .login-container {
     display: flex;
@@ -51,18 +51,4 @@ Registeryourself{
 }
 </style>
 </head>
-
-<body>
-    <div class="login-container">
-    <form class="login-box">
-      <div class="center">
-        <h2>Login</h2>
-      </div>
-
-        <input type="text" placeholder="Username" required>
-        <input type="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-    </form>
-    </div>          
-</body>
 </html>
