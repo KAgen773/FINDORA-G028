@@ -1,24 +1,31 @@
 import os
+import math
+import re
+from collections import Counter
 import psycopg2
+from psycopg2.extras import RealDictCursor
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = "findora_secret_key"  # Needed later for login sessions
 
-from psycopg2.extras import RealDictCursor
+WEIGHT_TYPE = 50
+WEIGHT_LOCATION_EXACT = 30
+WEIGHT_LOCATION_NEAR = 15
+WEIGHT_DATE_PROXIMITY = 10
+WEIGHT_DESC = 20
 
 def get_db():
     conn = psycopg2.connect(
         host="aws-1-ap-northeast-2.pooler.supabase.com",
         database="postgres",
         user="postgres.nlcxhkwuhntanpvigjpo",
-        password="Kavinnesh73@",
+        password="Kavin7374@!",
         port="5432",
         cursor_factory=RealDictCursor
     )
     return conn
-
 
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -27,6 +34,70 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 users = {}
+
+def preprocess_text(text):
+    if not text:
+        return []
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9\s]", "", text)
+    return [word for word in text.split() if word]
+
+def description_similarity(desc_a, desc_b):
+    tokens_a = preprocess_text(desc_a)
+    tokens_b = preprocess_text(desc_b)
+
+    if not tokens_a or not tokens_b:
+        return 0.0
+    
+    counts_a = Counter(tokens_a)
+    counts_b = Counter(tokens_b)
+
+    vocab = set(counts_a.keys()).union(set(counts_b.keys()))
+
+    dot_product = sum(counts_a.get(word, 0) * counts_b.get(word, 0) for word in vocab)
+    norm_a = math.sqrt(sum(count ** 2 for count in counts_a.values()))
+    norm_b = math.sqrt(sum(count ** 2 for count in counts_b.values()))
+
+    if norm_a == 0 or norm_b == 0:
+        return 0.0
+    return dot_product / (norm_a * norm_b)
+
+def calculate_match_score(item_a, item_b):
+
+    score = 0
+
+    type_a = str(item_a.get('type', '')).strip().lower()
+    type_b = str(item_b.get('type', '')).strip().lower()
+    
+    if type_a == type_b:
+        return 0.0
+    score += WEIGHT_TYPE
+
+    loc_a = str(item_a.get('location', '')).strip().lower()
+    loc_b = str(item_b.get('location', '')).strip().lower()
+
+    if loc_a == loc_b:
+        score += WEIGHT_LOCATION_EXACT
+    elif loc_a in loc_b or loc_b in loc_a:
+        score += WEIGHT_LOCATION_NEAR
+
+    try:
+        date_a = item_a.get('date')
+        date_b = item_b.get('date')
+        if date_a and date_b:
+            days_diff = abs((date_a - date_b).days)
+            if days_diff <= 3:
+                score += WEIGHT_DATE_PROXIMITY
+    except Exception:
+        pass
+
+    combined_a = f"{item_a.get('name', '')} {item_a.get('description', '')}"
+    combined_b = f"{item_b.get('name', '')} {item_b.get('description', '')}"
+
+    sim_ratio = description_similarity(combined_a, combined_b)
+    score += sim_ratio * WEIGHT_DESC
+
+    return round(score, 2)
 
 
 # First page (login page)
@@ -94,7 +165,7 @@ def mainpage():
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM items")
-    items = cursor.fetchall()
+    all_items = cursor.fetchall()
 
     cursor.execute("SELECT COUNT(*) AS total_count FROM items")
     total_result = cursor.fetchone()
@@ -106,7 +177,21 @@ def mainpage():
 
     conn.close()
 
-    return render_template('Mainpage.html', items=items, user_reports=user_reports, total_reports=total_reports)
+    processed_items = []
+    for current_item in all_items:
+        best_match_score = 0 
+
+        for comparing_item in all_items:
+            if current_item['id'] != comparing_item['id']:
+                score = calculate_match_score(current_item, comparing_item)
+                if score > best_match_score:
+                    best_match_score = score
+
+        item_data = dict(current_item)
+        item_data['match_score'] = best_match_score
+        processed_items.append(item_data)
+
+    return render_template('Mainpage.html', items=processed_items, user_reports=user_reports, total_reports=total_reports)
 
 
 # Report route
@@ -128,17 +213,6 @@ def report():
     filename = secure_filename(image.filename)
     image_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     image.save(image_path)
-
-    item = {
-        "user": session["user_id"],
-        "type": item_type,
-        "name": item_name,
-        "location": location,
-        "date": date,
-        "description": description,
-        "phone": phone,
-        "image": image_path
-    }
 
     conn = get_db()
     cursor = conn.cursor()
