@@ -87,15 +87,26 @@ def register():
 # 🔹 Your main menu page
 @app.route('/mainpage')
 def mainpage():
+    if "user_id" not in session:
+        return redirect(url_for("interface"))  #security check
+    
     conn = get_db()
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM items")
     items = cursor.fetchall()
 
+    cursor.execute("SELECT COUNT(*) AS total_count FROM items")
+    total_result = cursor.fetchone()
+    total_reports = total_result['total_count'] if total_result else 0
+
+    cursor.execute("SELECT COUNT(*) AS user_count FROM items WHERE user_id = %s", (str(session["user_id"]),))
+    user_result = cursor.fetchone()
+    user_reports = user_result['user_count'] if user_result else 0
+
     conn.close()
 
-    return render_template('Mainpage.html', items=items)
+    return render_template('Mainpage.html', items=items, user_reports=user_reports, total_reports=total_reports)
 
 
 # Report route
