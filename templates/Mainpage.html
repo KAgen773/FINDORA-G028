@@ -430,18 +430,18 @@ function filterItems(type) {
 
     <div class="stats-panel">
         <div class="stat-box">
-            <span class="stat-label">YOUR REPORTS</span>
-            <span class="stat-number">{{ user_reports }}</span>
+            <span class="stat-label">ACTIVE REPORTS</span>
+            <span class="stat-number">{{ active_reports }}</span>
             <div class="progress-container">
-                <div class="progress-bar user-bar" style="width: {{ (user_reports / 20 * 100) if user_reports <= 20 else 100 }}%;"></div>
+                <div class="progress-bar user-bar" style="width: {{ (active_reports / 100 * 100) if active_reports <= 100 else 100 }}%;"></div>
             </div>
         </div>
 
         <div class="stat-box">
-            <span class="stat-label">TOTAL SITE REPORTS</span>
-            <span class="stat-number">{{ total_reports }}</span>
+            <span class="stat-label">TOTAL ITEMS FOUND</span>
+            <span class="stat-number">{{ found_items }}</span>
             <div class="progress-container">
-                <div class="progress-bar total-bar" style="width: {{ (total_reports / 100 * 100) if total_reports <= 100 else 100 }}%;"></div>
+                <div class="progress-bar total-bar" style="width: {{ (found_items / 50 * 100) if found_items <= 50 else 100 }}%;"></div>
             </div>
         </div>
     </div>

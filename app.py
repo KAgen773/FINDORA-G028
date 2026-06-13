@@ -167,13 +167,13 @@ def mainpage():
     cursor.execute("SELECT * FROM items")
     all_items = cursor.fetchall()
 
-    cursor.execute("SELECT COUNT(*) AS total_count FROM items")
-    total_result = cursor.fetchone()
-    total_reports = total_result['total_count'] if total_result else 0
+    cursor.execute("SELECT COUNT(*) AS active_count FROM items")
+    active_result = cursor.fetchone()
+    active_reports = active_result['active_count'] if active_result else 0
 
-    cursor.execute("SELECT COUNT(*) AS user_count FROM items WHERE user_id = %s", (str(session["user_id"]),))
-    user_result = cursor.fetchone()
-    user_reports = user_result['user_count'] if user_result else 0
+    cursor.execute("SELECT COUNT(*) AS found_count FROM items WHERE type = 'found'")
+    found_result = cursor.fetchone()
+    found_items = found_result['found_count'] if found_result else 0
 
     conn.close()
 
@@ -191,7 +191,7 @@ def mainpage():
         item_data['match_score'] = best_match_score
         processed_items.append(item_data)
 
-    return render_template('Mainpage.html', items=processed_items, user_reports=user_reports, total_reports=total_reports)
+    return render_template('Mainpage.html', items=processed_items, active_reports=active_reports, found_items=found_items)
 
 
 # Report route
