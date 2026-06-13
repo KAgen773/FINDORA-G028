@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - Findora</title>
+
+<style>
+body{
+    background-image: url('{{ url_for('static', filename='register image.jpg') }}');
+    background-size: cover;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.login-box {
+    background-color: rgba(35, 227, 237, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+    width:300px;
+    text-align:center;
+}
+input{
+    width: 90%;
+    padding: 10px;
+    margin: 10px auto;
+}
+button{
+    padding: 8px 20px;
+    cursor: pointer;
+}   
+
+#successMsg {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-container">
+    <form id="registerForm" class="login-box" method="POST" action="/register" onsubmit="return handleRegister(event)">
+        <h2>Register</h2>
+        
+        <input type="text" id="username" name="username" placeholder="Username" required><br>
+        <input type="email" name="email" placeholder="Email" required><br>
+        <input type="password" name="password" placeholder="Password" required><br>
+
+        <button type="submit">Register</button><br><br>
+
+        <a href="/">
+            <button type="button">Back to Login</button>
+        </a>
+
+        <p id="successMsg"></p>
+    </form>
+</div>
+
+<script>
+function handleRegister(event) {
+    let user = document.getElementById("username").value;
+    document.getElementById("successMsg").textContent = "✅ Succesfully registered, " + user + "! Redirecting...";
+
+    setTimeout(function() {
+    document.getElementById("registerForm").submit();
+    }, 1500);
+
+    event.preventDefault();
+    return false;
+}
+</script>
+
+</body>
+</html>
