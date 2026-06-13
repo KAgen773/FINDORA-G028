@@ -373,8 +373,8 @@ function filterItems(type) {
         <a class="active" href="/"><i class="fa fa-home"></i></a>
         <a href="#" onclick="toggleSearch()"><i class="fa fa-search"></i></a>
         <a href="#"><i class="fa fa-envelope"></i></a>
-        <a href="profile.html"><i class="fa fa-user"></i></a>
-        <a href="Createrer.html"><i class="fa fa-info-circle"></i></a>
+        <a href="#"><i class="fa fa-user"></i></a>
+        <a href="Developer Hub.html"><i class="fa fa-info-circle"></i></a>
     </div>
     <div class="overlay">
         <h1>Findora</h1>
@@ -429,22 +429,32 @@ function filterItems(type) {
     </div>
 
     <div class="stats-panel">
-        <div class="stat-box">
-            <span class="stat-label">ACTIVE REPORTS</span>
-            <span class="stat-number">{{ active_reports }}</span>
-            <div class="progress-container">
-                <div class="progress-bar user-bar" style="width: {{ (active_reports / 100 * 100) if active_reports <= 100 else 100 }}%;"></div>
-            </div>
-        </div>
 
-        <div class="stat-box">
-            <span class="stat-label">TOTAL ITEMS FOUND</span>
-            <span class="stat-number">{{ found_items }}</span>
-            <div class="progress-container">
-                <div class="progress-bar total-bar" style="width: {{ (found_items / 50 * 100) if found_items <= 50 else 100 }}%;"></div>
+    <!-- ACTIVE REPORTS -->
+    <div class="stat-box">
+        <span class="stat-label">ACTIVE REPORTS</span>
+        <span class="stat-number">{{ active_reports }}</span>
+
+        <div class="progress-container">
+            <div class="progress-bar user-bar"
+                 style="width: ( active_reports if active_reports = 100 else 100 ) ">
             </div>
         </div>
     </div>
+
+    <!-- TOTAL ITEMS FOUND -->
+    <div class="stat-box">
+        <span class="stat-label">TOTAL ITEMS FOUND</span>
+        <span class="stat-number">{{ found_items }}</span>
+
+        <div class="progress-container">
+            <div class="progress-bar total-bar"
+                 style="width:  (found_items if found_items = 50 else 100 )">
+            </div>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>
