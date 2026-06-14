@@ -36,6 +36,11 @@ def login():
     else:
         # Redirects back to the login page if details are wrong
         return redirect(url_for("login_page"))
+@app.route('/notifications')
+def notifications():
+    # Fetch lost items from your database here
+    # e.g., lost_items = LostItem.query.all()
+    return render_template('notifications.html')
 
 # -------------------------
 # REGISTER
