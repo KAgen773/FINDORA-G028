@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+    <title>Findora - Lost & Found</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            margin: 0;
+            height: 100vh;
+            background-image: url("{{ url_for('static', filename='New.gif') }}");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-color: black;
+            font-family: Arial;
+            color: lightseagreen;
+        }
+
+        .icon-bar {
+            position: fixed;
+            top: 100px;
+            left: 0;
+            height: 100%;
+            width: 90px;
+            background-color: transparent;
+
+        }
+
+        .icon-bar a {
+            display: block;
+            text-align: center;
+            padding: 16px;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 36px;
+        }
+
+        .icon-bar a:hover {
+            background-color: blue;
+        }
+
+        .active {
+            background-color: lightseagreen;
+        }
+
+        .report-panel {
+            position: fixed;
+            right: 80px;
+            top: 40%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .report-panel h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .report-btn {
+            display: block;
+            width: 180px;
+            text-align: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .report-btn:hover {
+            background: blue;
+        }
+
+        .overlay {
+
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 50px;
+        }
+
+        .profile {
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+        }
+
+        .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.8);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background: #111;
+            margin: 10% auto;
+            padding: 30px;
+            width: 350px;
+            border-radius: 15px;
+            text-align: left;
+            box-shadow: 0 0 25px rgba(0, 123, 255, 0.7);
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .modal-content button {
+            padding: 10px 20px;
+            background: #007bff;
+            border: none;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .close {
+            float: right;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .search-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            overflow-y: auto;
+            z-index: 9999;
+        }
+
+        .search-box {
+            width: 80%;
+            margin: 50px auto;
+            background: #111;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .filter button {
+            margin: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            background: #222;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .close {
+            float: right;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .stats-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+            font-family: arial, sans-serif;
+        }
+
+        .stat-box {
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 178, 248, 0.3);
+            border-radius: 6px;
+            padding: 12px 20px;
+            min-width: 120px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 178, 248, 0.1);
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: #00b2f8;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #00b2f8;
+            box-shadow: 0 0 8px #00b2f8;
+            border-radius: 2px;
+            transition: width 0.5s ease-in-out;
+        }
+
+
+    </style>
+</head>
+
+<script>
+function openForm(type) {
+    document.getElementById("formModal").style.display = "block";
+
+    if (type === "lost") {
+        document.getElementById("formTitle").innerText = "Report Lost Item";
+        document.getElementById("itemType").value = "lost";
+    } else {
+        document.getElementById("formTitle").innerText = "Report Found Item";
+        document.getElementById("itemType").value = "found";
+    }
+}
+
+function closeForm() {
+    document.getElementById("formModal").style.display = "none";
+}
+
+function toggleSearch() {
+    let panel = document.getElementById("searchPanel");
+
+    if(panel.style.display === "block") {
+        panel.style.display = "none";
+    } else {
+        panel.style.display = "block";
+    }
+}
+
+function searchItems() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let cards = document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+        let name = card.querySelector("h3").innerText.toLowerCase();
+
+        if (name.includes(input)) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+
+        });
+}
+
+function filterItems(type) {
+    let cards = document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+        let itemType = card.getAttribute("data-type");
+
+        if (type === "all" || itemType === type) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+
+        });
+}
+
+</script>
+
+<body>
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeForm()">&times;</span>
+
+            <h2 id="formTitle">Report</h2>
+            <form method="POST" action="/report" enctype="multipart/form-data">
+                
+                <input type="hidden" name="type" id="itemType">
+                
+               
+
+                <label>Upload Photo</label>
+                <input type="file" name="image" accept="image/*" required>
+                
+                
+                <input type="text" name="item_name" placeholder="Item Name" required>
+
+                
+                <input type="text" name="location" placeholder="Last Seen Location" required>
+
+             
+                <input type="date" name="date" required>
+
+               
+                <textarea name="description" placeholder="Description of item"></textarea>
+
+               
+                <input type="text" name="phone" placeholder="Contact Phone Number" required>
+
+                <button type="submit">Submit</button>
+                
+            </form>
+        </div>
+    </div>
+
+
+
+
+        <div class="icon-bar">
+            <div class="profile">
+                <img src="{{ url_for('static', filename='New.gif') }}" alt="profile">
+            </div>
+        <a class="active" href="/"><i class="fa fa-home"></i></a>
+        <a href="#" onclick="toggleSearch()"><i class="fa fa-search"></i></a>
+        <a href="#"><i class="fa fa-envelope"></i></a>
+        <a href="#"><i class="fa fa-user"></i></a>
+        <a href="Developer Hub.html"><i class="fa fa-info-circle"></i></a>
+    </div>
+    <div class="overlay">
+        <h1>Findora</h1>
+
+    </div>
+    <div class="report-panel">
+        <h2>REPORT</h2>
+         <a href="#" class="report-btn" onclick="openForm('lost')">Lost Item</a>
+         <a href="#" class="report-btn" onclick="openForm('found')">Found Item</a>
+    </div>
+
+    <div id="searchPanel" class="search-panel">
+
+        <div class="search-box">
+
+            <span class="close" onclick="toggleSearch()">&times;</span>
+
+            <h2>Search Items</h2>
+
+            <input type="text" id="searchInput" placeholder="Search item..." onkeyup="searchItems()">
+
+            <div class="filter">
+                <button onclick="filterItems('all')">All</button>
+                <button onclick="filterItems('lost')">Lost</button>
+                <button onclick="filterItems('found')">Found</button>
+            </div>
+
+            <div class="grid">
+
+                {% for item in items %}
+                <div class="card" data-type="{{ item.type }}">
+
+                    <img src="/{{ item.image_url }}">
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                        <h3 style="margin: 0; font-size: 18px; color: #fff;">{{ item.name }}</h3>
+                        <span style="background: rgba(0, 178, 248, 0.2); border: 1px solid #00b2f8; color: #00b2f8; padding: 2px 6px; font-size: 11px; border-radius: 4px; font-weight: bold;">
+                            Match: {{ item.match_score }} pts
+                        </span>
+                    </div>
+
+                    <h4 style="margin: 5px 0; font-size: 14px; color: lightseagreen;"><i class="fa fa-map-marker"></i> {{ item.location }}</h4>
+                    <p style="margin: 0; font-size: 12px; color: #aaa; text-transform: uppercase;">Type: {{ item.type }}</p>
+
+                </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="stats-panel">
+
+    <!-- ACTIVE REPORTS -->
+    <div class="stat-box">
+        <span class="stat-label">ACTIVE REPORTS</span>
+        <span class="stat-number">{{ active_reports }}</span>
+
+        <div class="progress-container">
+            <div class="progress-bar user-bar"
+                 style="width: ( active_reports if active_reports = 100 else 100 ) ">
+            </div>
+        </div>
+    </div>
+
+    <!-- TOTAL ITEMS FOUND -->
+    <div class="stat-box">
+        <span class="stat-label">TOTAL ITEMS FOUND</span>
+        <span class="stat-number">{{ found_items }}</span>
+
+        <div class="progress-container">
+            <div class="progress-bar total-bar"
+                 style="width:  (found_items if found_items = 50 else 100 )">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

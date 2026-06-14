@@ -14,8 +14,12 @@
 </head>
 </html>
 <style>
-body{
+body {
     background-image: url('{{ url_for("static", filename="photo2.jpg") }}');
+    background-position: center;     /* Centers the image horizontally and vertically */
+    background-repeat: no-repeat;    /* Prevents the image from tiling/repeating */
+    background-size: cover;          /* Forces the image to stretch beautifully to fill the screen */
+    background-attachment: fixed;    /* Keeps the background in place while scrolling */
 }
 .login-container {
     display: flex;
