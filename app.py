@@ -41,12 +41,8 @@ def notifications():
     # Fetch lost items from your database here
     # e.g., lost_items = LostItem.query.all()
     return render_template('notifications.html')
-
 # -------------------------
-# REGISTER
-# -------------------------
-# -------------------------
-# REGISTER
+# REGISTER PAGE
 # -------------------------
 @app.route("/registerpage", methods=["GET", "POST"])  # ← Add @ here!
 def register():
@@ -112,8 +108,6 @@ def mainpage():
         active_reports=active_reports,
         found_items=found_items
     )
-
-
 # -------------------------
 # REPORT ITEM
 # -------------------------
