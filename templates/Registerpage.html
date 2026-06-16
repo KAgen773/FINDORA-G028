@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - Findora</title>
+
+<style>
+body{
+    background-image: url('{{ url_for("static", filename="photo.jpg") }}');
+    background-size: cover;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.login-box {
+    background-color: rgba(35, 227, 237, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+    width:300px;
+    text-align:center;
+    margin: auto;
+}
+input{
+    width: 90%;
+    padding: 10px;
+    margin: 10px auto;
+}
+button{
+    padding: 8px 20px;
+    margin: 5px;
+}   
+
+#successMsg {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body class="login-container">
+
+<form class="login-box" action="{{ url_for('register') }}" method="POST" onsubmit="showSuccess(event)">
+    <h2>Register</h2>
+
+    <label>New Username:</label><br>
+    <input type="text" id="username" name="username" required><br>
+
+    <label>Email:</label><br>
+    <input type="email" name="email" required><br>
+
+    <label>Password:</label><br>
+    <input type="password" name="password" required><br>
+
+    <button type="submit">Register</button>
+
+    <button type="button" onclick="window.location.href='/'">Go back to login</button>
+    
+
+    <p id="successMsg"></p>
+</form>
+
+<script>
+function showSuccess(event) {
+    // 1. Stop the page from reloading instantly
+    event.preventDefault(); 
+    
+    // 2. Show your success message
+    const msg = document.getElementById("successMsg");
+    msg.innerHTML = "Successfully registered ✅";
+    
+    // 3. Wait 2 seconds so the user can see the message, then actually submit to Python!
+    setTimeout(function() {
+        event.target.submit(); 
+    }, 2000);
+}
+
+</script>
+
+</body>
+</html>
