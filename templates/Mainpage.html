@@ -341,11 +341,15 @@
 <body>
 
     <div class="profile">
+        {% if user.profile_pic %}
+            <img src="/{{ user.profile_pic }}" alt="profile">
+        {% else %}
         <img src="{{ url_for('static', filename='New.gif') }}" alt="profile">
+        {% endif %}
     </div>
 
     <div class="icon-bar">
-        <a class="active" href="/"><i class="fa fa-home"></i></a>
+        <a class="active" href="/mainpage"><i class="fa fa-home"></i></a>
         <a href="#" onclick="toggleSearch()"><i class="fa fa-search"></i></a>
         
         <div class="notification-container">
@@ -355,13 +359,12 @@
             </a>
             <div id="notification-dropdown" class="dropdown-menu hidden">
                 <h3>Lost Products</h3>
-                <ul id="lost-products-list">
-                    </ul>
+                <ul id="lost-products-list"></ul>
             </div>
         </div>
 
-        <a href="infomationedit.html"><i class="fa fa-user"></i></a>
-        <a href="Developer Hub.html"><i class="fa fa-info-circle"></i></a>
+        <a href="/edit-info"><i class="fa fa-user"></i></a>
+        <a href="/developer-hub"><i class="fa fa-info-circle"></i></a>
     </div>
 
     <div class="overlay">

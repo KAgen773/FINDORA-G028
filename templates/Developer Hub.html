@@ -21,6 +21,15 @@
     object-fit: cover;
 }
 
+.Database_developer-image {
+    width: 200px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+
 .creator-info {
     display: flex;
     flex-direction: column;
@@ -28,7 +37,7 @@
 }
 
 body {
-    background-image: url("photo2.jpg");
+    background-image: url("{{ url_for('static', filename='photo2.jpg') }}");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -41,7 +50,7 @@ body {
 <body>
 
 <div class="creator-box">
-    <img src="kagen.jpeg" alt="Creator Image" class="creator-image">
+    <img src="{{ url_for('static', filename='kagen.jpeg') }}" alt="Creator Image" class="creator-image">
 
     <div class="creator-info">
         <h2>Creator Information</h2>
@@ -52,6 +61,40 @@ body {
         <p><b>Email:</b>
             <a href="mailto:srikagendran512@gmail.com">
                 srikagendran512@gmail.com
+            </a>
+        </p>
+        <p><b>Location:</b> Malaysia</p>
+    </div>
+</div>
+
+<div class="creator-box">
+    <img src="{{ url_for('static', filename='aghielaan.jpeg') }}" alt="Creator Image" class="creator-image">
+
+    <div class="creator-info">
+        <h2>Developer Information</h2>
+        <p><b>Name:</b> Aghielaan Saravanan</p>
+        <p><b>Role:</b> Backend Developer</p>
+        <p><b>Project:</b> Findora (Lost & Found System)</p>
+        <p><b>Email : AGHIELAAN.SARAVANAN@student.mmu.edu.my</b>
+            <a href="mailto:AGHIELAAN.SARAVANAN@student.mmu.edu.my">
+                AGHIELAAN.SARAVANAN@student.mmu.edu.my
+            </a>
+        </p>
+        <p><b>Location:</b> Malaysia</p>
+    </div>
+</div>
+
+<div class="creator-box">
+    <img src="{{ url_for('static', filename='Kavinnesh.jpeg') }}" alt="Creator Image" class="Database_developer-image">
+
+    <div class="creator-info">
+        <h2>Developer Information</h2>
+        <p><b>Name:</b> Kavinnesh Chandra Shekaran</p>
+        <p><b>Role:</b> Frontend & Database Developer</p>
+        <p><b>Project:</b> Findora (Lost & Found System)</p>
+        <p><b>Email :</b>
+            <a href="mailto:KAVINNESH.CHANDRA.SHEKARA@student.mmu.edu.my">
+                KAVINNESH.CHANDRA.SHEKARA@student.mmu.edu.my
             </a>
         </p>
         <p><b>Location:</b> Malaysia</p>

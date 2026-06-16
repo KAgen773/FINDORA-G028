@@ -2,69 +2,66 @@
 <html>
 <head>
     <title>Profile Settings</title>
+
+    <style>
+        body{
+            background-image: url("{{ url_for('static', filename='photo2.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+
+            display :flex;
+            justify-content: center;
+            align-items: center;
+
+            min-height:100vh;
+            margin: 0;
+            
+            }
+
+            .profile-container{
+                width: 400px;
+                background-color: rgba(255, 255, 255, 0.9);
+                padding: 25px;
+                border-radius: 15px;
+                box-shadow: 0 0px 15px rgba(0, 0, 0, 0.3);
+            }
+
+            label{
+                color: black
+                font-size: 22px;
+            }
+
+            h2{
+                color: rgb(0, 0, 0);
+                font-size: 24px;
+                text-align: center;
+            }
+    </style>
 </head>
-<style>
-    body{
-        background-image: url("interface.jpg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        min-height: 100vh;
 
-        display :flex;
-        justify-content: center;
-        align-items: center;
+<body>
 
-        min-height:100vh;
-        margin: 0;
-        
-        }
-
-        .profile-container{
-            width: 400px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 0px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        label{
-            color: rgb(255, 255, 255);
-            font-size: 22px;
-        }
-
-        h2{
-            color: rgb(0, 0, 0);
-            font-size: 24px;
-            text-align: center;
-        }
-</style>
-
-<div class="Profile-container">
+<div class="profile-container">
   
  <h2> Edit Profile</h2>
-    <form>
+    <form method="POST" action="{{ url_for('information_edit') }}" enctype="multipart/form-data">
 
         <label>New Profile Picture</label><br>
-        <input type="file"><br><br>
+        <input type="file" name="image"><br><br>
 
         <label>New Name</label><br>
-        <input type="text"><br><br>
+        <input type="text" name="username"><br><br>
 
         <label>New Email</label><br>
-        <input type="email"><br><br>
+        <input type="email" name="email"><br><br>
 
         <label>New Phone Number</label><br>
-        <input type="text"><br><br>
+        <input type="text" name="phone"><br><br>
 
-        <label>Password</label><br>
-        <input type="password"><br><br>
-
-        <button type="button" onclick="window.location.href='Mainpage.html'">
-    Save Changes
-</button>
-
-
-   </form>
+        <button type="submit">Save Changes</button>
+    </form>
 </div>
 </body>
+</html>
